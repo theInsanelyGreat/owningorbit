@@ -23,13 +23,18 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
+html{height:100%}
 body{
   background:var(--void);
   color:var(--ink);
   font-family:'Archivo',system-ui,sans-serif;
   font-weight:400;
   line-height:1.6;
-  overflow-x:hidden;
+  overflow:hidden;
+  height:100vh;
+  height:100dvh;
+  display:flex;
+  flex-direction:column;
   -webkit-font-smoothing:antialiased;
 }
 ::selection{background:var(--cyan);color:var(--void)}
@@ -60,36 +65,18 @@ section{position:relative}
 .stars{position:fixed;inset:0;z-index:0;pointer-events:none}
 .stars canvas{width:100%;height:100%;display:block}
 
-/* ---- progress rail ---- */
-.rail{
-  position:fixed;top:0;left:0;height:2px;width:0%;
-  background:linear-gradient(90deg,var(--cyan-deep),var(--cyan));
-  z-index:120;box-shadow:0 0 12px var(--glow);
-}
-
 /* ---- nav ---- */
 nav{
   position:fixed;top:0;left:0;right:0;z-index:100;
   display:flex;align-items:center;justify-content:space-between;
   padding:20px 32px;
-  backdrop-filter:blur(2px);
-  transition:background .4s,border-color .4s;
-  border-bottom:1px solid transparent;
 }
-nav.docked{background:rgba(5,7,15,.82);border-bottom:1px solid var(--line)}
 .brand{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;font-size:.95rem;letter-spacing:.02em;text-transform:uppercase}
 .brand b{color:var(--cyan)}
-.confbadge{
-  font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.3em;
-  color:var(--ink-mute);text-transform:uppercase;
-  border:1px solid var(--line);padding:5px 10px;border-radius:2px;
-}
-@media(max-width:680px){.confbadge{display:none}}
-
 /* ============ HERO ============ */
 .hero{
-  min-height:100vh;display:flex;align-items:center;
-  position:relative;z-index:2;
+  flex:1 1 auto;display:flex;align-items:center;
+  position:relative;z-index:2;min-height:0;
 }
 .hero-grid{
   display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;width:100%;
@@ -101,146 +88,32 @@ nav.docked{background:rgba(5,7,15,.82);border-bottom:1px solid var(--line)}
 .hero h1 .l1{display:block;color:var(--ink);opacity:0;animation:rise 1s .35s forwards}
 .hero h1 .l2{display:block;color:var(--cyan);opacity:0;animation:rise 1s .5s forwards;text-shadow:0 0 50px var(--glow)}
 .hero p.lede{
-  font-size:clamp(1.05rem,1.7vw,1.32rem);color:var(--ink-soft);max-width:30ch;
-  font-weight:400;opacity:0;animation:rise 1s .68s forwards;
+  font-size:clamp(1rem,1.4vw,1.15rem);color:var(--ink-soft);max-width:30ch;
+  font-weight:400;line-height:1.5;opacity:0;animation:rise 1s .68s forwards;
 }
-.hero-tag{
-  margin-top:42px;font-family:'Space Mono',monospace;font-size:.78rem;
-  color:var(--ink-mute);letter-spacing:.04em;opacity:0;animation:rise 1s .85s forwards;
-}
-.hero-tag span{color:var(--ink-soft)}
 @keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
 
 /* orbital signature */
 .orbit-stage{position:relative;aspect-ratio:1/1;width:100%;max-width:440px;margin:0 auto}
 .orbit-stage svg{width:100%;height:100%;overflow:visible}
 @media(max-width:880px){
-  .hero-grid{grid-template-columns:1fr;gap:10px}
-  .orbit-stage{max-width:300px;order:-1;opacity:.85}
-  .hero{padding-top:90px;min-height:auto;padding-bottom:60px}
+  .hero-grid{grid-template-columns:1fr;gap:2px}
+  .orbit-stage{max-width:170px;order:-1;opacity:.8}
+  .hero{padding-top:60px}
+  .hero h1{font-size:clamp(2.4rem,12vw,3.6rem);margin-bottom:14px}
+  .hero p.lede{font-size:1rem;line-height:1.4;max-width:34ch}
+  .hero-copy .eyebrow{margin-bottom:12px}
+  .hero-cta{margin-top:20px;padding:14px 26px}
+  footer{padding:14px 0 18px}
+}
+/* short viewports: protect the headline + CTA, drop decoration */
+@media(max-height:680px){
+  .orbit-stage{display:none}
+  .hero{padding-top:56px}
 }
 
-/* ============ generic section frame ============ */
-.shead{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:54px;flex-wrap:wrap;gap:12px}
-.shead .eyebrow span{color:var(--ink-mute)}
-.sno{font-family:'Space Mono',monospace;font-size:.72rem;color:var(--ink-mute);letter-spacing:.2em}
-.pad{padding:120px 0}
-h2.big{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:800;font-size:clamp(1.9rem,4vw,3.1rem);line-height:1.02;letter-spacing:-.015em;max-width:18ch}
-h2.big em{font-style:normal;color:var(--cyan)}
-
-.reveal{opacity:0;transform:translateY(34px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
-.reveal.in{opacity:1;transform:none}
-
-/* ============ PROBLEM ============ */
-#problem{background:linear-gradient(180deg,transparent,rgba(13,20,38,.5),transparent)}
-.prob-lead{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:800;font-size:clamp(1.9rem,4vw,3.1rem);line-height:1.04;letter-spacing:-.015em;max-width:16ch;margin-bottom:64px}
-.prob-lead em{font-style:normal;color:var(--cyan)}
-.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line)}
-.stat{padding:38px 28px 38px 0;border-bottom:1px solid var(--line);position:relative}
-.stat:not(:last-child){border-right:1px solid var(--line);padding-right:28px}
-.stat:not(:first-child){padding-left:28px}
-.stat .num{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;font-size:clamp(2.4rem,5vw,3.8rem);line-height:1;color:var(--ink);letter-spacing:-.02em}
-.stat .num .u{color:var(--cyan);font-size:.5em;vertical-align:super}
-.stat .lab{margin-top:14px;font-size:.92rem;color:var(--ink-soft);max-width:24ch}
-@media(max-width:760px){.stat-row{grid-template-columns:1fr}.stat,.stat:not(:last-child){border-right:none;padding:30px 0}.stat:not(:first-child){padding-left:0}}
-.insight{margin-top:54px;display:flex;gap:20px;align-items:flex-start;padding:30px;background:var(--panel);border:1px solid var(--line);border-left:2px solid var(--cyan);border-radius:3px}
-.insight .tag{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.3em;color:var(--cyan);white-space:nowrap;padding-top:5px}
-.insight p{font-size:1.18rem;color:var(--ink);font-weight:500;line-height:1.45}
-
-/* ============ SOLUTION ============ */
-.sol-intro{font-size:1.12rem;color:var(--ink-soft);max-width:54ch;margin-bottom:56px}
-.caps{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden}
-.cap{background:var(--deep);padding:34px 28px;transition:background .35s,transform .35s;position:relative;min-height:200px;display:flex;flex-direction:column}
-.cap:hover{background:var(--panel);transform:translateY(-3px)}
-.cap .cn{font-family:'Space Mono',monospace;font-size:.74rem;color:var(--cyan);letter-spacing:.15em;margin-bottom:22px}
-.cap h3{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:700;font-size:1.18rem;letter-spacing:-.01em;margin-bottom:12px;text-transform:uppercase}
-.cap p{font-size:.94rem;color:var(--ink-mute);line-height:1.5}
-.cap::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--cyan);transition:width .4s}
-.cap:hover::after{width:100%}
-@media(max-width:820px){.caps{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:520px){.caps{grid-template-columns:1fr}}
-
-/* ============ WHY NOW ============ */
-#whynow{background:linear-gradient(180deg,transparent,rgba(13,20,38,.4),transparent)}
-.now-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden}
-.now{background:var(--deep);padding:42px 38px}
-.now .nk{font-family:'Space Mono',monospace;font-size:1.4rem;color:var(--cyan);font-weight:700}
-.now h3{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:700;font-size:1.3rem;margin:16px 0 12px;text-transform:uppercase;letter-spacing:-.01em}
-.now p{color:var(--ink-soft);font-size:.98rem;max-width:38ch}
-@media(max-width:720px){.now-grid{grid-template-columns:1fr}}
-
-/* ============ MARKET ============ */
-.mkt-intro{font-size:1.12rem;color:var(--ink-soft);max-width:56ch;margin-bottom:50px}
-.table{border:1px solid var(--line);border-radius:3px;overflow:hidden}
-.thead,.trow{display:grid;grid-template-columns:1.3fr 1.6fr .9fr .9fr;gap:20px;padding:18px 26px;align-items:center}
-.thead{background:var(--panel);font-family:'Space Mono',monospace;font-size:.64rem;letter-spacing:.22em;color:var(--ink-mute);text-transform:uppercase}
-.trow{border-top:1px solid var(--line);transition:background .3s}
-.trow:hover{background:rgba(95,200,238,.05)}
-.trow.us{background:rgba(95,200,238,.08);border-top:1px solid var(--line-bright)}
-.trow .co{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:700;font-size:1.02rem}
-.trow.us .co{color:var(--cyan)}
-.trow .fc{color:var(--ink-soft);font-size:.92rem}
-.trow .v{font-family:'Space Mono',monospace;color:var(--ink);font-size:.95rem}
-.trow .v.big{color:var(--cyan)}
-.usrole{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.2em;color:var(--cyan);display:block;margin-top:3px}
-.gap{margin-top:38px;padding:30px;border:1px dashed var(--line-bright);border-radius:3px;background:rgba(13,20,38,.4)}
-.gap .tag{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.3em;color:var(--cyan);display:block;margin-bottom:12px}
-.gap p{font-size:1.1rem;color:var(--ink);line-height:1.5;font-weight:500}
-@media(max-width:760px){
-  .thead{display:none}
-  .trow{grid-template-columns:1fr 1fr;gap:6px 20px;padding:20px}
-  .trow .co{grid-column:1/-1;margin-bottom:6px}
-  .trow .fc{grid-column:1/-1;margin-bottom:8px}
-}
-
-/* ============ COMPETITION ============ */
-#comp{background:linear-gradient(180deg,transparent,rgba(13,20,38,.4),transparent)}
-.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:42px}
-.comp-card{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:38px}
-.comp-card .role{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.22em;color:var(--ink-mute);text-transform:uppercase;margin-bottom:14px}
-.comp-card h3{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:800;font-size:1.55rem;margin-bottom:20px}
-.comp-card ul{list-style:none}
-.comp-card li{padding:11px 0 11px 26px;border-top:1px solid var(--line);font-size:.94rem;color:var(--ink-soft);position:relative}
-.comp-card li:first-of-type{border-top:none}
-.comp-card li::before{content:"";position:absolute;left:0;top:18px;width:7px;height:7px;border:1px solid var(--cyan);transform:rotate(45deg)}
-.opening{display:flex;gap:24px;align-items:center;padding:40px;background:linear-gradient(120deg,rgba(95,200,238,.1),rgba(13,20,38,.2));border:1px solid var(--line-bright);border-radius:4px}
-.opening .tag{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;font-size:1rem;text-transform:uppercase;color:var(--cyan);writing-mode:vertical-rl;letter-spacing:.2em}
-.opening p{font-size:1.18rem;line-height:1.5;color:var(--ink);font-weight:500}
-.opening p em{font-style:normal;color:var(--cyan)}
-@media(max-width:720px){.comp-grid{grid-template-columns:1fr}.opening{flex-direction:column;align-items:flex-start;gap:14px}.opening .tag{writing-mode:horizontal-tb}}
-
-/* ============ TEAM ============ */
-.team-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:4px;overflow:hidden}
-.member{background:var(--deep);padding:42px 40px}
-.member .avatar{width:54px;height:54px;border-radius:50%;border:1.5px solid var(--cyan);display:flex;align-items:center;justify-content:center;font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:800;font-size:1.4rem;color:var(--cyan);margin-bottom:24px;box-shadow:0 0 24px rgba(95,200,238,.25) inset}
-.member h3{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:800;font-size:1.7rem;margin-bottom:6px}
-.member .role{font-family:'Space Mono',monospace;font-size:.64rem;letter-spacing:.2em;color:var(--cyan);text-transform:uppercase;margin-bottom:26px}
-.member ul{list-style:none}
-.member li{padding:14px 0;border-top:1px solid var(--line);font-size:.95rem;color:var(--ink-soft);line-height:1.5}
-.member li b{color:var(--ink);font-weight:600}
-.member .prev{margin-top:24px;font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.2em;color:var(--ink-mute);text-transform:uppercase}
-.member .prev span{color:var(--ink-soft);margin-right:14px}
-@media(max-width:720px){.team-grid{grid-template-columns:1fr}}
-
-/* ============ WHY US ============ */
-#whyus{background:linear-gradient(180deg,transparent,rgba(13,20,38,.4),transparent)}
-.us-list{counter-reset:u}
-.us-item{display:grid;grid-template-columns:auto 1fr;gap:32px;padding:34px 0;border-top:1px solid var(--line);align-items:baseline}
-.us-item:last-child{border-bottom:1px solid var(--line)}
-.us-item .un{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;font-size:2.4rem;color:var(--cyan);line-height:1;opacity:.55}
-.us-item h3{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:700;font-size:1.25rem;margin-bottom:10px;text-transform:uppercase;letter-spacing:-.01em}
-.us-item p{color:var(--ink-soft);font-size:1rem;max-width:60ch}
-@media(max-width:600px){.us-item{grid-template-columns:1fr;gap:10px}}
-
-/* ============ BOTTOM LINE ============ */
-#bottom{min-height:92vh;display:flex;align-items:center;text-align:center;background:radial-gradient(ellipse at center,rgba(13,30,55,.7),transparent 70%)}
-.bl-eyebrow{display:block;margin-bottom:40px}
-.bl{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;font-size:clamp(2rem,5.4vw,4.4rem);line-height:1.02;letter-spacing:-.02em;text-transform:none;max-width:18ch;margin:0 auto}
-.bl .c{color:var(--cyan);text-shadow:0 0 40px var(--glow)}
-.bl-sub{margin:44px auto 0;max-width:50ch;color:var(--ink-soft);font-size:1.12rem;line-height:1.55}
-.bl-cta{margin-top:54px;display:inline-flex;align-items:center;gap:14px;font-family:'Space Mono',monospace;font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--void);background:var(--cyan);padding:18px 34px;border-radius:3px;text-decoration:none;transition:transform .3s,box-shadow .3s;box-shadow:0 0 0 rgba(95,200,238,0)}
-.bl-cta:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(95,200,238,.4)}
-button.bl-cta{border:none;cursor:pointer}
+.hero-cta{margin-top:38px;display:inline-flex;align-items:center;gap:14px;font-family:'Space Mono',monospace;font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--void);background:var(--cyan);padding:17px 32px;border-radius:3px;border:none;cursor:pointer;transition:transform .3s,box-shadow .3s;box-shadow:0 0 0 rgba(95,200,238,0);opacity:0;animation:rise 1s 1s forwards}
+.hero-cta:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(95,200,238,.4)}
 
 /* ---- request modal ---- */
 .modal-veil{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(3,5,12,.78);backdrop-filter:blur(6px)}
@@ -267,8 +140,10 @@ button.bl-cta{border:none;cursor:pointer}
 .modal .done .ok{width:54px;height:54px;border-radius:50%;border:1.5px solid var(--cyan);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;color:var(--cyan);font-size:1.6rem}
 .modal .done p{color:var(--ink-soft);font-size:.95rem;line-height:1.55}
 
-footer{border-top:1px solid var(--line);padding:34px 0;position:relative;z-index:2}
-.foot{display:flex;justify-content:space-between;align-items:center;font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.2em;color:var(--ink-mute);text-transform:uppercase;flex-wrap:wrap;gap:14px}
+footer{flex:0 0 auto;padding:20px 0 28px;position:relative;z-index:2}
+.foot{display:flex;justify-content:flex-end}
+.foot-tag{font-family:'Space Mono',monospace;font-size:.78rem;letter-spacing:.04em;color:var(--ink-soft)}
+@media(max-width:600px){.foot{justify-content:flex-start}.foot-tag{font-size:.72rem}}
 
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
@@ -278,12 +153,10 @@ footer{border-top:1px solid var(--line);padding:34px 0;position:relative;z-index
 </style>
 </head>
 <body>
-<div class="rail" id="rail"></div>
 <div class="stars"><canvas id="sky"></canvas></div>
 
 <nav id="nav">
   <div class="brand">OWNING<b>ORBIT</b></div>
-  <div class="confbadge">Confidential · Investment Brief</div>
 </nav>
 
 <!-- HERO -->
@@ -293,7 +166,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;position:relative;z-index
       <span class="eyebrow">Autonomous Orbital Robotics</span>
       <h1 class="display"><span class="l1">Owning</span><span class="l2">Orbit</span></h1>
       <p class="lede">Robots that refuel, repair, and relocate satellites in orbit — turning the industry's largest write-off into a recurring service business.</p>
-      <div class="hero-tag">// <span>Robots that make the universe ours to operate.</span></div>
+      <button type="button" class="hero-cta" id="openReq">Talk to our CEO →</button>
     </div>
     <div class="orbit-stage">
       <svg id="orbitSvg" viewBox="0 0 400 400" aria-hidden="true">
@@ -333,177 +206,9 @@ footer{border-top:1px solid var(--line);padding:34px 0;position:relative;z-index
     </div>
   </div>
 </header>
-
-<!-- PROBLEM -->
-<section id="problem" class="pad">
-  <div class="wrap">
-    <div class="shead reveal">
-      <span class="eyebrow">The Problem <span>/ Owning Orbit</span></span>
-      <span class="sno">02 / 08</span>
-    </div>
-    <p class="prob-lead reveal">Every year, <em>$5B+ in working satellites</em> is retired — not failed.</p>
-    <div class="stat-row reveal">
-      <div class="stat">
-        <div class="num">$150M<span class="u">+</span></div>
-        <div class="lab">Cost of one GEO satellite retired with a working payload.</div>
-      </div>
-      <div class="stat">
-        <div class="num">$5B<span class="u">/yr</span></div>
-        <div class="lab">Working hardware retired in GEO annually — and rising.</div>
-      </div>
-      <div class="stat">
-        <div class="num">&lt;10</div>
-        <div class="lab">Commercial servicing missions ever flown — a near-empty market.</div>
-      </div>
-    </div>
-    <div class="insight reveal">
-      <span class="tag">INSIGHT</span>
-      <p>The hardware is fine. We have no way to refuel, repair, or move it once it's up there — so we throw it away.</p>
-    </div>
-  </div>
-</section>
-
-<!-- SOLUTION -->
-<section id="solution" class="pad">
-  <div class="wrap">
-    <div class="shead reveal">
-      <span class="eyebrow">The Solution <span>/ Owning Orbit</span></span>
-      <span class="sno">03 / 08</span>
-    </div>
-    <h2 class="big reveal" style="margin-bottom:24px">One core capability. <em>Six ways to sell it.</em></h2>
-    <p class="sol-intro reveal">Fully autonomous servicing robots that rendezvous with and capture objects never built to be touched — performing, on station and without a human in the loop:</p>
-    <div class="caps reveal">
-      <div class="cap"><div class="cn">01</div><h3>Life Extension</h3><p>Refuel the host, or dock as a propulsion module that flies it for years.</p></div>
-      <div class="cap"><div class="cn">02</div><h3>Rescue &amp; Relocation</h3><p>Tug a stranded satellite to the orbit it was meant to reach.</p></div>
-      <div class="cap"><div class="cn">03</div><h3>Repair</h3><p>Free a stuck array or antenna; swap modular payloads.</p></div>
-      <div class="cap"><div class="cn">04</div><h3>Inspection</h3><p>Diagnose anomalies up close — a data product in its own right.</p></div>
-      <div class="cap"><div class="cn">05</div><h3>Debris Removal</h3><p>Capture dead objects and deorbit or graveyard them.</p></div>
-      <div class="cap"><div class="cn">06</div><h3>In-Space Assembly</h3><p>Build structures too large to launch in one piece.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- WHY NOW -->
-<section id="whynow" class="pad">
-  <div class="wrap">
-    <div class="shead reveal">
-      <span class="eyebrow">Why Now <span>/ Owning Orbit</span></span>
-      <span class="sno">04 / 08</span>
-    </div>
-    <h2 class="big reveal" style="margin-bottom:48px">The window opened — and <em>didn't exist a decade ago.</em></h2>
-    <div class="now-grid reveal">
-      <div class="now"><div class="nk">01</div><h3>Launch got cheap</h3><p>Reusable heavy-lift cut cost per kilogram ~10×. The unit economics finally close.</p></div>
-      <div class="now"><div class="nk">02</div><h3>Autonomy matured</h3><p>Modern perception and onboard compute make real-time non-cooperative capture tractable.</p></div>
-      <div class="now"><div class="nk">03</div><h3>Data centers reach orbit</h3><p>Space-based data centers are beginning to proliferate — a new class of large, high-value assets needing servicing and upkeep.</p></div>
-      <div class="now"><div class="nk">04</div><h3>Rules became revenue</h3><p>Debris-mitigation mandates turn disposal into a budgeted line item.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- MARKET -->
-<section id="market" class="pad">
-  <div class="wrap">
-    <div class="shead reveal">
-      <span class="eyebrow">The Market <span>/ Owning Orbit</span></span>
-      <span class="sno">05 / 08</span>
-    </div>
-    <h2 class="big reveal" style="margin-bottom:22px">Capital is pouring <em>into orbit.</em></h2>
-    <p class="mkt-intro reveal">Investors are paying unicorn prices for space-infrastructure startups years before revenue. Servicing is the same thesis — with customers and contracts that already exist today.</p>
-    <div class="table reveal">
-      <div class="thead">
-        <div>Company</div><div>Focus</div><div>Raised</div><div>Valuation</div>
-      </div>
-      <div class="trow">
-        <div class="co">Starcloud</div><div class="fc">Orbital data centers</div><div class="v">~$200M</div><div class="v">$1.1B</div>
-      </div>
-      <div class="trow">
-        <div class="co">Aetherflux / Cowboy</div><div class="fc">Space solar power</div><div class="v">~$365M</div><div class="v">$2.0B</div>
-      </div>
-      <div class="trow">
-        <div class="co">Starfish Space</div><div class="fc">Satellite servicing — the Otter vehicle</div><div class="v">$150M+</div><div class="v">$500M</div>
-      </div>
-    </div>
-    <div class="gap reveal">
-      <span class="tag">THE GAP</span>
-      <p>Billion-dollar valuations are landing on pre-revenue bets — while servicing reaches a recurring $5B+/yr write-off with operators, insurers, and defense already at the table.</p>
-    </div>
-  </div>
-</section>
-
-<!-- COMPETITION -->
-<section id="comp" class="pad">
-  <div class="wrap">
-    <div class="shead reveal">
-      <span class="eyebrow">The Competition <span>/ Owning Orbit</span></span>
-      <span class="sno">06 / 08</span>
-    </div>
-    <h2 class="big reveal" style="margin-bottom:48px">Validated by two names — <em>still wide open.</em></h2>
-    <div class="comp-grid reveal">
-      <div class="comp-card">
-        <div class="role">Venture-backed · Direct Competitor</div>
-        <h3>Starfish Space</h3>
-        <ul>
-          <li>Builds the Otter servicing vehicle — but is focused only on refueling.</li>
-          <li>$150M+ raised; contracts with Space Force, NASA &amp; SES.</li>
-          <li>Has not yet flown its own satellites in orbit.</li>
-        </ul>
-      </div>
-      <div class="comp-card">
-        <div class="role">The Incumbent</div>
-        <h3>Northrop Grumman</h3>
-        <ul>
-          <li>Flew MEV-1 / MEV-2 — the only operational life-extension missions to date.</li>
-          <li>Relies on manual operations — humans in the loop in space.</li>
-          <li>Large, expensive, defense-prime cost structure.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="opening reveal">
-      <span class="tag">The Opening</span>
-      <p>The category is proven and funded — yet no one owns the low-cost, fully autonomous layer. <em>That is the seat we take.</em></p>
-    </div>
-  </div>
-</section>
-
-<!-- WHY US -->
-<section id="whyus" class="pad">
-  <div class="wrap">
-    <div class="shead reveal">
-      <span class="eyebrow">Why Us <span>/ Owning Orbit</span></span>
-      <span class="sno">07 / 08</span>
-    </div>
-    <h2 class="big reveal" style="margin-bottom:48px">The right team for an <em>autonomy-first bet.</em></h2>
-    <div class="us-list reveal">
-      <div class="us-item">
-        <div class="un">01</div>
-        <div><h3>We built autonomous systems at scale</h3><p>The entire moat here is autonomy — real-time perception, navigation, assembly, and control. That's exactly the infrastructure we've shipped, to billions of users, under production pressure.</p></div>
-      </div>
-      <div class="us-item">
-        <div class="un">02</div>
-        <div><h3>We ship fast, with no warm-up period</h3><p>We've founded and launched together before.</p></div>
-      </div>
-      <div class="us-item">
-        <div class="un">03</div>
-        <div><h3>We do hard, capital-efficient things</h3><p>One of us bootstrapped an 81K-user platform with zero outside money. We get more done per dollar than teams many times our size.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- BOTTOM LINE -->
-<section id="bottom">
-  <div class="wrap">
-    <span class="eyebrow bl-eyebrow reveal">The Bottom Line</span>
-    <h2 class="bl reveal">The physics says it must be <span class="c">robots</span>.<br>The economics say it must be <span class="c">autonomous</span>.<br>The race says it must be <span class="c">now</span>.</h2>
-    <p class="bl-sub reveal">One hard-won capability turns every satellite in orbit into a customer — the infrastructure layer of the orbital economy, and we intend to own it.</p>
-    <button type="button" class="bl-cta reveal" id="openReq">Request the full deck →</button>
-  </div>
-</section>
-
 <footer>
   <div class="wrap foot">
-    <span>Owning Orbit</span>
-    <span>Confidential — Investment Brief</span>
+    <span class="foot-tag">// Robots that make the universe ours to operate.</span>
   </div>
 </footer>
 
@@ -513,8 +218,8 @@ footer{border-top:1px solid var(--line);padding:34px 0;position:relative;z-index
     <button class="x" id="reqClose" aria-label="Close">×</button>
     <div id="reqBody">
       <span class="eyebrow">Confidential Access</span>
-      <h3 id="reqTitle">Request the full deck</h3>
-      <p class="sub">Tell us who you are and we'll send the complete investment deck to your inbox.</p>
+      <h3 id="reqTitle">Talk to our CEO</h3>
+      <p class="sub">Leave your details and our CEO will reach out to set up a conversation.</p>
       <form id="reqForm" novalidate>
         <div class="field">
           <label for="rqName">Name</label>
@@ -522,16 +227,16 @@ footer{border-top:1px solid var(--line);padding:34px 0;position:relative;z-index
           <span class="err" id="rqNameErr">Please enter your name.</span>
         </div>
         <div class="field">
-          <label for="rqProf">Profession</label>
-          <input id="rqProf" type="text" autocomplete="organization-title" placeholder="Partner, Orbital Ventures">
-          <span class="err" id="rqProfErr">Please enter your profession.</span>
+          <label for="rqProf">Fund</label>
+          <input id="rqProf" type="text" autocomplete="organization" placeholder="Orbital Ventures">
+          <span class="err" id="rqProfErr">Please enter your fund.</span>
         </div>
         <div class="field">
           <label for="rqEmail">Email</label>
           <input id="rqEmail" type="email" autocomplete="email" placeholder="jane@orbital.vc">
           <span class="err" id="rqEmailErr">Please enter a valid email.</span>
         </div>
-        <button type="submit" class="submit">Send request →</button>
+        <button type="submit" class="submit">Request a call →</button>
         <p class="note">Your details go straight to the founding team. Confidential — Investment Brief.</p>
       </form>
     </div>
@@ -540,18 +245,6 @@ footer{border-top:1px solid var(--line);padding:34px 0;position:relative;z-index
 
 
 <script>
-// progress + nav dock
-const rail=document.getElementById('rail'),nav=document.getElementById('nav');
-function onScroll(){
-  const h=document.documentElement.scrollHeight-window.innerHeight;
-  rail.style.width=(window.scrollY/h*100)+'%';
-  nav.classList.toggle('docked',window.scrollY>40);
-}
-addEventListener('scroll',onScroll,{passive:true});onScroll();
-
-// reveal on scroll
-const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.16});
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
 // starfield
 const c=document.getElementById('sky'),x=c.getContext('2d');
@@ -615,18 +308,18 @@ function valid(){
 }
 
 function succeed(){
-  body.innerHTML='<div class="done"><div class="ok">✓</div><p>Thanks — your request is on its way. We\u2019ll be in touch shortly with the full deck.</p></div>';
+  body.innerHTML='<div class="done"><div class="ok">✓</div><p>Thanks — your request reached our CEO. Expect to hear back shortly to set up a time.</p></div>';
 }
 
 form.addEventListener('submit',async e=>{
   e.preventDefault();
   const d=valid();
   if(!d)return;
-  const subject='Full deck request — '+d.name;
-  const text='Name: '+d.name+'\nProfession: '+d.prof+'\nEmail: '+d.email;
+  const subject='Investor call request — '+d.name;
+  const text='Name: '+d.name+'\nFund: '+d.prof+'\nEmail: '+d.email;
   if(FORM_ENDPOINT){
     try{
-      const r=await fetch(FORM_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({name:d.name,profession:d.prof,email:d.email,_subject:subject})});
+      const r=await fetch(FORM_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({name:d.name,fund:d.prof,email:d.email,_subject:subject})});
       if(r.ok){succeed();}else{throw new Error();}
     }catch(_){
       window.location.href='mailto:'+RECIPIENT+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(text);
